@@ -2,13 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#315efb">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="Mon suivi fiscal">
-<link rel="manifest" href="manifest.webmanifest">
-<link rel="apple-touch-icon" href="icon-180.png">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Calculateur fiscal Assistante maternelle</title>
 <style>
 :root{--bg:#f5f6f8;--card:#fff;--text:#17202a;--muted:#697586;--border:#dde2e8;--accent:#315efb;--accentbg:#eaf0ff;--ok:#087443;--okbg:#e9f8f0;--warn:#9a4d00;--warnbg:#fff3e8}
@@ -49,20 +43,6 @@
       </label>
     </div>
 
-    <div class="card importCard">
-      <div class="importIcon">▣</div>
-      <div class="importText">
-        <strong>Importer la feuille RAM</strong>
-        <span>Photo ou capture d'écran</span>
-      </div>
-      <label class="primaryBtn">Importer
-        <input id="photo" type="file" accept="image/*" capture="environment" hidden>
-      </label>
-      <button id="runOcr" class="secondaryBtn" type="button" disabled>Analyser</button>
-      <div id="ocrStatus" class="small muted full">Aucune photo sélectionnée.</div>
-      <div id="preview" class="preview full"></div>
-    </div>
-
     <div class="card">
       <div class="sectionTitle">
         <div><h2>Mes journées</h2><span id="monthHint" class="muted small"></span></div>
@@ -72,12 +52,10 @@
       <div id="days" class="dayList"></div>
 
       <div class="actions">
-      <label class="primaryBtn">📷 Prendre en photo
-        <input id="cameraPhoto" type="file" accept="image/*" capture="environment" hidden>
-      </label>
-      <label class="secondaryBtn">🖼️ Importer une photo
-        <input id="libraryPhoto" type="file" accept="image/*" hidden>
-      </label>
+      <button id="cameraBtn" class="primaryBtn" type="button">📷 Prendre en photo</button>
+      <button id="libraryBtn" class="secondaryBtn" type="button">🖼️ Importer une photo</button>
+      <input id="cameraPhoto" type="file" accept="image/*" capture="environment" style="display:none">
+      <input id="libraryPhoto" type="file" accept="image/*" style="display:none">
       <button id="runOcr" class="secondaryBtn" type="button" disabled>Analyser</button>
       <div id="ocrStatus" class="small muted full">Choisissez « Prendre en photo » ou « Importer une photo ».</div>
       <div id="preview" class="preview full"></div>
@@ -233,24 +211,45 @@
   function selectPhoto(file){
     if(!file)return;
     selectedPhoto=file;
-    const u=URL.createObjectURL(f= file);
-    $("preview").innerHTML=`<img src="${u}" alt="Feuille RAM importée"><div class="small muted" style="margin-top:6px">${file.name}</div>`;
+    const u=URL.createObjectURL(file);
+    $("preview").innerHTML="";
+    const img=document.createElement("img");
+    img.src=u; img.alt="Feuille RAM importée";
+    img.onload=()=>URL.revokeObjectURL(u);
+    $("preview").appendChild(img);
+    const name=document.createElement("div");
+    name.className="small muted"; name.style.marginTop="6px"; name.textContent=file.name;
+    $("preview").appendChild(name);
     $("runOcr").disabled=false;
-    $("ocrStatus").textContent="Document prêt. Appuyez sur « Analyser ».";
+    $("ocrStatus").textContent="Document importé. Appuyez sur « Analyser ».";
   }
-  $("cameraPhoto").addEventListener("change",e=>selectPhoto(e.target.files?.[0]));
-  $("libraryPhoto").addEventListener("change",e=>selectPhoto(e.target.files?.[0]));
+  $("cameraBtn").addEventListener("click",()=>$("cameraPhoto").click());
+  $("libraryBtn").addEventListener("click",()=>$("libraryPhoto").click());
+  $("cameraPhoto").addEventListener("change",e=>selectPhoto(e.target.files && e.target.files[0]));
+  $("libraryPhoto").addEventListener("change",e=>selectPhoto(e.target.files && e.target.files[0]));
   $("quickPhoto").addEventListener("click",()=>$("cameraPhoto").click());
   $("runOcr").addEventListener("click",async()=>{
     if(!selectedPhoto)return;$("runOcr").disabled=true;$("ocrStatus").textContent="Lecture de la feuille…";
     try{
       const mod=await import("https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/+esm"),T=mod.default||mod;
       const res=await T.recognize(selectedPhoto,"fra",{logger:m=>{if(m?.progress!=null)$("ocrStatus").textContent=`Lecture… ${Math.round(m.progress*100)} %`;}});
-      const text=res?.data?.text||"",m=getMonth();let n=0;
-      text.split(/\r?\n/).forEach(line=>{
-        const day=line.match(/^\s*(3[01]|[12]?\d)\b/);if(!day)return;
-        const ts=[...line.matchAll(/\b([01]?\d|2[0-3])[:.h]([0-5]\d)\b/g)].map(x=>`${String(x[1]).padStart(2,"0")}:${x[2]}`);
-        if(ts.length>=2){const r=m.rows.find(x=>x.day===Number(day[1]));if(r){r.start=ts[0];r.end=ts[1];n++;}}
+      const data=res?.data||{},words=(data.words||[]).filter(w=>w.text&&Number.isFinite(w.confidence));
+      const m=getMonth();let n=0,review=0;
+      // Analyse par position: les mots sont regroupés par ligne selon leur coordonnée Y.
+      // Cela évite de mélanger les horaires de deux lignes voisines de la feuille RAM.
+      const rows=[];
+      words.forEach(w=>{const cy=(w.bbox?.y0+w.bbox?.y1)/2||0;let row=rows.find(r=>Math.abs(r.cy-cy)<Math.max(12,(w.bbox?.y1-w.bbox?.y0)*0.65));if(!row){row={cy,words:[]};rows.push(row);}row.words.push(w);});
+      rows.forEach(row=>{
+        row.words.sort((a,b)=>(a.bbox?.x0||0)-(b.bbox?.x0||0));
+        const line=row.words.map(w=>w.text).join(" ");
+        const dayMatch=line.match(/(?:^|\s)(3[01]|[12]\d|[1-9])(?:\s|$)/);
+        if(!dayMatch)return;
+        const day=Number(dayMatch[1]);if(day<1||day>31)return;
+        const times=[];
+        row.words.forEach(w=>{const t=w.text.replace(/[Oo]/g,"0").replace(/[Il]/g,"1").replace(/[hH]/g,":").replace(/\./g,":");const m1=t.match(/(?:^|\D)([01]?\d|2[0-3])[: ]([0-5]\d)(?:$|\D)/);if(m1)times.push(`${String(m1[1]).padStart(2,"0")}:${m1[2]}`);});
+        if(times.length<2){const all=[...line.replace(/[Oo]/g,"0").matchAll(/\b([01]?\d|2[0-3])[:.h ]([0-5]\d)\b/g)];all.forEach(x=>times.push(`${String(x[1]).padStart(2,"0")}:${x[2]}`));}
+        const r=m.rows.find(x=>x.day===day);
+        if(r&&times.length>=2){r.start=times[0];r.end=times[1];n++;if(times.length>2)review++;}
       });
       build();$("ocrStatus").textContent=n?`${n} journée(s) préremplie(s). Vérifiez avant validation.`:"Aucune journée reconnue. Essayez une photo plus nette.";
     }catch(e){$("ocrStatus").textContent="OCR indisponible. Vous pouvez saisir les horaires manuellement.";}
@@ -266,5 +265,5 @@
   build();
 })();
 </script>
-<script>if ("serviceWorker" in navigator) { window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js").catch(()=>{})); }</script></body>
+</body>
 </html>
