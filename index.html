@@ -72,9 +72,16 @@
       <div id="days" class="dayList"></div>
 
       <div class="actions">
-        <button id="copyYesterday" class="secondaryBtn" type="button">↻ Reprendre les horaires</button>
-        <button id="clearMonth" class="ghostBtn" type="button">Effacer le mois</button>
-      </div>
+      <label class="primaryBtn">📷 Prendre en photo
+        <input id="cameraPhoto" type="file" accept="image/*" capture="environment" hidden>
+      </label>
+      <label class="secondaryBtn">🖼️ Importer une photo
+        <input id="libraryPhoto" type="file" accept="image/*" hidden>
+      </label>
+      <button id="runOcr" class="secondaryBtn" type="button" disabled>Analyser</button>
+      <div id="ocrStatus" class="small muted full">Choisissez « Prendre en photo » ou « Importer une photo ».</div>
+      <div id="preview" class="preview full"></div>
+    </div>
     </div>
 
     <div class="stickySummary">
@@ -223,8 +230,17 @@
   $("clearMonth").addEventListener("click",()=>{if(confirm("Effacer toutes les données de ce mois ?")){state.months[key()]=emptyMonth();build();}});
   $("monthIncome").addEventListener?.("input",update);
   let selectedPhoto=null;
-  $("photo").addEventListener("change",e=>{const f=e.target.files?.[0];if(!f)return;selectedPhoto=f;const u=URL.createObjectURL(f);$("preview").innerHTML=`<img src="${u}" alt="Feuille RAM importée">`;$("runOcr").disabled=false;$("ocrStatus").textContent="Photo prête. Appuyez sur Analyser.";});
-  $("quickPhoto").addEventListener("click",()=>$("photo").click());
+  function selectPhoto(file){
+    if(!file)return;
+    selectedPhoto=file;
+    const u=URL.createObjectURL(f= file);
+    $("preview").innerHTML=`<img src="${u}" alt="Feuille RAM importée"><div class="small muted" style="margin-top:6px">${file.name}</div>`;
+    $("runOcr").disabled=false;
+    $("ocrStatus").textContent="Document prêt. Appuyez sur « Analyser ».";
+  }
+  $("cameraPhoto").addEventListener("change",e=>selectPhoto(e.target.files?.[0]));
+  $("libraryPhoto").addEventListener("change",e=>selectPhoto(e.target.files?.[0]));
+  $("quickPhoto").addEventListener("click",()=>$("cameraPhoto").click());
   $("runOcr").addEventListener("click",async()=>{
     if(!selectedPhoto)return;$("runOcr").disabled=true;$("ocrStatus").textContent="Lecture de la feuille…";
     try{
@@ -250,10 +266,5 @@
   build();
 })();
 </script>
-<script>
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js").catch(()=>{}));
-}
-</script>
-</body>
+<script>if ("serviceWorker" in navigator) { window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js").catch(()=>{})); }</script></body>
 </html>
