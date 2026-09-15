@@ -2,11 +2,17 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#315efb">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Mon suivi fiscal">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-180.png">
 <title>Calculateur fiscal Assistante maternelle</title>
 <style>
 :root{--bg:#f5f6f8;--card:#fff;--text:#17202a;--muted:#697586;--border:#dde2e8;--accent:#315efb;--accentbg:#eaf0ff;--ok:#087443;--okbg:#e9f8f0;--warn:#9a4d00;--warnbg:#fff3e8}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}main{max-width:760px;margin:auto;padding:14px 14px 90px}.top{display:flex;justify-content:space-between;align-items:center;padding:8px 2px 10px}.eyebrow{font-size:11px;font-weight:800;letter-spacing:.08em;color:var(--muted)}h1{font-size:27px;line-height:1.1;margin:3px 0}h2{font-size:17px;margin:0}p{margin:5px 0;color:var(--muted);line-height:1.4}.small{font-size:12px}.muted{color:var(--muted)}.iconBtn,.round{border:1px solid var(--border);background:var(--card);border-radius:12px;min-width:44px;min-height:44px;font-size:24px}.tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;background:#e9ecf1;border-radius:12px;padding:4px;margin-bottom:12px}.tab{border:0;background:transparent;border-radius:9px;padding:10px;font-weight:700;color:var(--muted)}.tab.active{background:#fff;color:var(--text);box-shadow:0 1px 3px #0001}.view{display:none}.view.active{display:block}.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:14px;margin:10px 0}.monthHead{display:flex;align-items:center;justify-content:space-between;gap:12px}.monthLine{display:flex;align-items:center;gap:7px;font-size:17px}.round{min-width:36px;min-height:36px;font-size:20px}.childMini{width:150px;font-size:11px;color:var(--muted)}label{display:block;font-size:12px;font-weight:700;color:var(--muted)}input,select{width:100%;margin-top:5px;border:1px solid var(--border);border-radius:10px;padding:10px;background:#fff;color:var(--text);font-size:16px}.importCard{display:grid;grid-template-columns:40px 1fr auto;gap:8px;align-items:center}.importIcon{font-size:25px}.importText{display:flex;flex-direction:column;min-width:0}.importText span{font-size:12px;color:var(--muted);margin-top:2px}.primaryBtn,.secondaryBtn,.ghostBtn,.textBtn{border:0;border-radius:10px;padding:10px 12px;font-weight:750;cursor:pointer;white-space:nowrap}.primaryBtn{background:var(--accent);color:#fff}.secondaryBtn{background:var(--accentbg);color:#2345b4}.ghostBtn{background:#fff;border:1px solid var(--border)}.textBtn{background:none;color:var(--accent);padding:5px}.full{grid-column:1/-1}.preview img{display:block;max-width:100%;max-height:230px;margin-top:7px;border-radius:10px;border:1px solid var(--border)}.sectionTitle{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}.dayList{display:flex;flex-direction:column}.day{display:grid;grid-template-columns:50px 1fr 92px;gap:8px;align-items:center;padding:10px 0;border-bottom:1px solid #edf0f3}.day:last-child{border-bottom:0}.dayNum{display:flex;flex-direction:column;text-align:center}.dayNum b{font-size:17px}.dayNum span{font-size:10px;color:var(--muted);text-transform:capitalize}.time{display:grid;grid-template-columns:1fr 1fr;gap:6px}.time input{margin-top:3px;padding:7px;font-size:16px}.dayResult{text-align:right}.hours{display:block;font-weight:750;font-size:13px}.cat{display:inline-block;margin-top:3px;font-size:11px;padding:3px 6px;border-radius:999px;background:#f0f2f5;color:#59636f}.cat.ok{background:var(--okbg);color:var(--ok)}.cat.warn{background:var(--warnbg);color:var(--warn)}details{grid-column:2/-1}summary{font-size:11px;color:var(--muted);cursor:pointer}.detailGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-top:8px}.wide{grid-column:1/-1}.actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:12px}.filePick{position:relative;display:inline-flex;overflow:hidden}.filePick input{position:absolute;inset:0;width:100%;height:100%;opacity:0;margin:0;padding:0;cursor:pointer;z-index:2}.stickySummary{position:sticky;bottom:8px;display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:#20252c;color:#fff;border-radius:14px;padding:10px;margin-top:10px;box-shadow:0 5px 20px #0002}.stickySummary div{text-align:center;border-right:1px solid #ffffff24}.stickySummary div:last-child{border:0}.stickySummary span{display:block;font-size:10px;opacity:.7}.stickySummary strong{font-size:14px}.yearSelector{display:flex;justify-content:center;align-items:center;gap:18px;margin-top:10px}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.metric{background:#fff;border:1px solid var(--border);border-radius:14px;padding:13px}.metric span{display:block;color:var(--muted);font-size:12px}.metric strong{display:block;font-size:20px;margin-top:5px}.monthRows{display:flex;flex-direction:column}.monthRow{display:grid;grid-template-columns:1fr 90px 100px;gap:8px;padding:9px 0;border-bottom:1px solid #edf0f3;font-size:13px}.monthRow:last-child{border:0}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}main{max-width:760px;margin:auto;padding:14px 14px 90px}.top{display:flex;justify-content:space-between;align-items:center;padding:8px 2px 10px}.eyebrow{font-size:11px;font-weight:800;letter-spacing:.08em;color:var(--muted)}h1{font-size:27px;line-height:1.1;margin:3px 0}h2{font-size:17px;margin:0}p{margin:5px 0;color:var(--muted);line-height:1.4}.small{font-size:12px}.muted{color:var(--muted)}.iconBtn,.round{border:1px solid var(--border);background:var(--card);border-radius:12px;min-width:44px;min-height:44px;font-size:24px}.tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;background:#e9ecf1;border-radius:12px;padding:4px;margin-bottom:12px}.tab{border:0;background:transparent;border-radius:9px;padding:10px;font-weight:700;color:var(--muted)}.tab.active{background:#fff;color:var(--text);box-shadow:0 1px 3px #0001}.view{display:none}.view.active{display:block}.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:14px;margin:10px 0}.monthHead{display:flex;align-items:center;justify-content:space-between;gap:12px}.monthLine{display:flex;align-items:center;gap:7px;font-size:17px}.round{min-width:36px;min-height:36px;font-size:20px}.childMini{width:150px;font-size:11px;color:var(--muted)}label{display:block;font-size:12px;font-weight:700;color:var(--muted)}input,select{width:100%;margin-top:5px;border:1px solid var(--border);border-radius:10px;padding:10px;background:#fff;color:var(--text);font-size:16px}.importCard{display:grid;grid-template-columns:40px 1fr auto;gap:8px;align-items:center}.importIcon{font-size:25px}.importText{display:flex;flex-direction:column;min-width:0}.importText span{font-size:12px;color:var(--muted);margin-top:2px}.primaryBtn,.secondaryBtn,.ghostBtn,.textBtn{border:0;border-radius:10px;padding:10px 12px;font-weight:750;cursor:pointer;white-space:nowrap}.primaryBtn{background:var(--accent);color:#fff}.secondaryBtn{background:var(--accentbg);color:#2345b4}.ghostBtn{background:#fff;border:1px solid var(--border)}.textBtn{background:none;color:var(--accent);padding:5px}.full{grid-column:1/-1}.preview img{display:block;max-width:100%;max-height:230px;margin-top:7px;border-radius:10px;border:1px solid var(--border)}.sectionTitle{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}.dayList{display:flex;flex-direction:column}.day{display:grid;grid-template-columns:50px 1fr 92px;gap:8px;align-items:center;padding:10px 0;border-bottom:1px solid #edf0f3}.day:last-child{border-bottom:0}.dayNum{display:flex;flex-direction:column;text-align:center}.dayNum b{font-size:17px}.dayNum span{font-size:10px;color:var(--muted);text-transform:capitalize}.time{display:grid;grid-template-columns:1fr 1fr;gap:6px}.time input{margin-top:3px;padding:7px;font-size:16px}.dayResult{text-align:right}.hours{display:block;font-weight:750;font-size:13px}.cat{display:inline-block;margin-top:3px;font-size:11px;padding:3px 6px;border-radius:999px;background:#f0f2f5;color:#59636f}.cat.ok{background:var(--okbg);color:var(--ok)}.cat.warn{background:var(--warnbg);color:var(--warn)}details{grid-column:2/-1}summary{font-size:11px;color:var(--muted);cursor:pointer}.detailGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-top:8px}.wide{grid-column:1/-1}.actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:12px}.stickySummary{position:sticky;bottom:8px;display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:#20252c;color:#fff;border-radius:14px;padding:10px;margin-top:10px;box-shadow:0 5px 20px #0002}.stickySummary div{text-align:center;border-right:1px solid #ffffff24}.stickySummary div:last-child{border:0}.stickySummary span{display:block;font-size:10px;opacity:.7}.stickySummary strong{font-size:14px}.yearSelector{display:flex;justify-content:center;align-items:center;gap:18px;margin-top:10px}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.metric{background:#fff;border:1px solid var(--border);border-radius:14px;padding:13px}.metric span{display:block;color:var(--muted);font-size:12px}.metric strong{display:block;font-size:20px;margin-top:5px}.monthRows{display:flex;flex-direction:column}.monthRow{display:grid;grid-template-columns:1fr 90px 100px;gap:8px;padding:9px 0;border-bottom:1px solid #edf0f3;font-size:13px}.monthRow:last-child{border:0}
 @media(max-width:560px){main{padding:10px 10px 85px}.importCard{grid-template-columns:34px 1fr auto}.day{grid-template-columns:42px 1fr 78px;gap:6px}.detailGrid{grid-template-columns:1fr 1fr}.monthHead{align-items:flex-start}.childMini{width:120px}.stickySummary strong{font-size:12px}.stickySummary{padding:8px 5px}.monthRow{grid-template-columns:1fr 70px 85px}.primaryBtn,.secondaryBtn{padding:9px 10px}}
 @media(max-width:380px){.dayResult{font-size:11px}.day{grid-template-columns:38px 1fr 70px}.time{gap:4px}.stickySummary span{font-size:9px}.stickySummary strong{font-size:11px}}
 </style>
@@ -43,6 +49,20 @@
       </label>
     </div>
 
+    <div class="card importCard">
+      <div class="importIcon">▣</div>
+      <div class="importText">
+        <strong>Importer la feuille RAM</strong>
+        <span>Photo ou capture d'écran</span>
+      </div>
+      <label class="primaryBtn">Importer
+        <input id="photo" type="file" accept="image/*" capture="environment" hidden>
+      </label>
+      <button id="runOcr" class="secondaryBtn" type="button" disabled>Analyser</button>
+      <div id="ocrStatus" class="small muted full">Aucune photo sélectionnée.</div>
+      <div id="preview" class="preview full"></div>
+    </div>
+
     <div class="card">
       <div class="sectionTitle">
         <div><h2>Mes journées</h2><span id="monthHint" class="muted small"></span></div>
@@ -52,16 +72,9 @@
       <div id="days" class="dayList"></div>
 
       <div class="actions">
-      <label class="primaryBtn filePick">📷 Prendre en photo
-        <input id="cameraPhoto" type="file" accept="image/*" capture="environment">
-      </label>
-      <label class="secondaryBtn filePick">🖼️ Importer une photo
-        <input id="libraryPhoto" type="file" accept="image/*">
-      </label>
-      <button id="runOcr" class="secondaryBtn" type="button" disabled>Analyser</button>
-      <div id="ocrStatus" class="small muted full">Choisissez « Prendre en photo » ou « Importer une photo ».</div>
-      <div id="preview" class="preview full"></div>
-    </div>
+        <button id="copyYesterday" class="secondaryBtn" type="button">↻ Reprendre les horaires</button>
+        <button id="clearMonth" class="ghostBtn" type="button">Effacer le mois</button>
+      </div>
     </div>
 
     <div class="stickySummary">
@@ -210,46 +223,18 @@
   $("clearMonth").addEventListener("click",()=>{if(confirm("Effacer toutes les données de ce mois ?")){state.months[key()]=emptyMonth();build();}});
   $("monthIncome").addEventListener?.("input",update);
   let selectedPhoto=null;
-  function selectPhoto(file){
-    if(!file)return;
-    selectedPhoto=file;
-    const u=URL.createObjectURL(file);
-    $("preview").innerHTML="";
-    const img=document.createElement("img");
-    img.src=u; img.alt="Feuille RAM importée";
-    img.onload=()=>URL.revokeObjectURL(u);
-    $("preview").appendChild(img);
-    const name=document.createElement("div");
-    name.className="small muted"; name.style.marginTop="6px"; name.textContent=file.name;
-    $("preview").appendChild(name);
-    $("runOcr").disabled=false;
-    $("ocrStatus").textContent="Document importé. Appuyez sur « Analyser ».";
-  }
-  $("cameraPhoto").addEventListener("change",e=>selectPhoto(e.target.files && e.target.files[0]));
-  $("libraryPhoto").addEventListener("change",e=>selectPhoto(e.target.files && e.target.files[0]));
-  $("quickPhoto").addEventListener("click",()=>$("cameraPhoto").click());
+  $("photo").addEventListener("change",e=>{const f=e.target.files?.[0];if(!f)return;selectedPhoto=f;const u=URL.createObjectURL(f);$("preview").innerHTML=`<img src="${u}" alt="Feuille RAM importée">`;$("runOcr").disabled=false;$("ocrStatus").textContent="Photo prête. Appuyez sur Analyser.";});
+  $("quickPhoto").addEventListener("click",()=>$("photo").click());
   $("runOcr").addEventListener("click",async()=>{
     if(!selectedPhoto)return;$("runOcr").disabled=true;$("ocrStatus").textContent="Lecture de la feuille…";
     try{
       const mod=await import("https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/+esm"),T=mod.default||mod;
       const res=await T.recognize(selectedPhoto,"fra",{logger:m=>{if(m?.progress!=null)$("ocrStatus").textContent=`Lecture… ${Math.round(m.progress*100)} %`;}});
-      const data=res?.data||{},words=(data.words||[]).filter(w=>w.text&&Number.isFinite(w.confidence));
-      const m=getMonth();let n=0,review=0;
-      // Analyse par position: les mots sont regroupés par ligne selon leur coordonnée Y.
-      // Cela évite de mélanger les horaires de deux lignes voisines de la feuille RAM.
-      const rows=[];
-      words.forEach(w=>{const cy=(w.bbox?.y0+w.bbox?.y1)/2||0;let row=rows.find(r=>Math.abs(r.cy-cy)<Math.max(12,(w.bbox?.y1-w.bbox?.y0)*0.65));if(!row){row={cy,words:[]};rows.push(row);}row.words.push(w);});
-      rows.forEach(row=>{
-        row.words.sort((a,b)=>(a.bbox?.x0||0)-(b.bbox?.x0||0));
-        const line=row.words.map(w=>w.text).join(" ");
-        const dayMatch=line.match(/(?:^|\s)(3[01]|[12]\d|[1-9])(?:\s|$)/);
-        if(!dayMatch)return;
-        const day=Number(dayMatch[1]);if(day<1||day>31)return;
-        const times=[];
-        row.words.forEach(w=>{const t=w.text.replace(/[Oo]/g,"0").replace(/[Il]/g,"1").replace(/[hH]/g,":").replace(/\./g,":");const m1=t.match(/(?:^|\D)([01]?\d|2[0-3])[: ]([0-5]\d)(?:$|\D)/);if(m1)times.push(`${String(m1[1]).padStart(2,"0")}:${m1[2]}`);});
-        if(times.length<2){const all=[...line.replace(/[Oo]/g,"0").matchAll(/\b([01]?\d|2[0-3])[:.h ]([0-5]\d)\b/g)];all.forEach(x=>times.push(`${String(x[1]).padStart(2,"0")}:${x[2]}`));}
-        const r=m.rows.find(x=>x.day===day);
-        if(r&&times.length>=2){r.start=times[0];r.end=times[1];n++;if(times.length>2)review++;}
+      const text=res?.data?.text||"",m=getMonth();let n=0;
+      text.split(/\r?\n/).forEach(line=>{
+        const day=line.match(/^\s*(3[01]|[12]?\d)\b/);if(!day)return;
+        const ts=[...line.matchAll(/\b([01]?\d|2[0-3])[:.h]([0-5]\d)\b/g)].map(x=>`${String(x[1]).padStart(2,"0")}:${x[2]}`);
+        if(ts.length>=2){const r=m.rows.find(x=>x.day===Number(day[1]));if(r){r.start=ts[0];r.end=ts[1];n++;}}
       });
       build();$("ocrStatus").textContent=n?`${n} journée(s) préremplie(s). Vérifiez avant validation.`:"Aucune journée reconnue. Essayez une photo plus nette.";
     }catch(e){$("ocrStatus").textContent="OCR indisponible. Vous pouvez saisir les horaires manuellement.";}
@@ -264,6 +249,11 @@
   $("restore").addEventListener("change",e=>{const f=e.target.files?.[0];if(!f)return;const rd=new FileReader();rd.onload=()=>{try{Object.assign(state,JSON.parse(rd.result));$("child").value=state.child;$("smic").value=state.smic;$("majoration").value=state.majoration;build();}catch{alert("Fichier JSON invalide.")}};rd.readAsText(f);});
   build();
 })();
+</script>
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js").catch(()=>{}));
+}
 </script>
 </body>
 </html>
