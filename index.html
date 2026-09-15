@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mon suivi fiscal — Assistante maternelle V6</title>
+<style>
+:root{--bg:#f5f6f8;--card:#fff;--text:#17202a;--muted:#697586;--border:#dde2e8;--accent:#315efb;--accentbg:#eaf0ff;--ok:#087443;--okbg:#e9f8f0;--warn:#9a4d00;--warnbg:#fff3e8}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}main{max-width:760px;margin:auto;padding:14px 14px 90px}.top{display:flex;justify-content:space-between;align-items:center;padding:8px 2px 10px}.eyebrow{font-size:11px;font-weight:800;letter-spacing:.08em;color:var(--muted)}h1{font-size:27px;line-height:1.1;margin:3px 0}h2{font-size:17px;margin:0}p{margin:5px 0;color:var(--muted);line-height:1.4}.small{font-size:12px}.muted{color:var(--muted)}.iconBtn,.round{border:1px solid var(--border);background:var(--card);border-radius:12px;min-width:44px;min-height:44px;font-size:24px}.tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;background:#e9ecf1;border-radius:12px;padding:4px;margin-bottom:12px}.tab{border:0;background:transparent;border-radius:9px;padding:10px;font-weight:700;color:var(--muted)}.tab.active{background:#fff;color:var(--text);box-shadow:0 1px 3px #0001}.view{display:none}.view.active{display:block}.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:14px;margin:10px 0}.monthHead{display:flex;align-items:center;justify-content:space-between;gap:12px}.monthLine{display:flex;align-items:center;gap:7px;font-size:17px}.round{min-width:36px;min-height:36px;font-size:20px}.childMini{width:150px;font-size:11px;color:var(--muted)}label{display:block;font-size:12px;font-weight:700;color:var(--muted)}input,select{width:100%;margin-top:5px;border:1px solid var(--border);border-radius:10px;padding:10px;background:#fff;color:var(--text);font-size:16px}.importCard{display:grid;grid-template-columns:40px 1fr auto;gap:8px;align-items:center}.importIcon{font-size:25px}.importText{display:flex;flex-direction:column;min-width:0}.importText span{font-size:12px;color:var(--muted);margin-top:2px}.primaryBtn,.secondaryBtn,.ghostBtn,.textBtn{border:0;border-radius:10px;padding:10px 12px;font-weight:750;cursor:pointer;white-space:nowrap}.primaryBtn{background:var(--accent);color:#fff}.secondaryBtn{background:var(--accentbg);color:#2345b4}.ghostBtn{background:#fff;border:1px solid var(--border)}.textBtn{background:none;color:var(--accent);padding:5px}.full{grid-column:1/-1}.preview img{display:block;max-width:100%;max-height:230px;margin-top:7px;border-radius:10px;border:1px solid var(--border)}.sectionTitle{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}.dayList{display:flex;flex-direction:column}.day{display:grid;grid-template-columns:50px 1fr 92px;gap:8px;align-items:center;padding:10px 0;border-bottom:1px solid #edf0f3}.day:last-child{border-bottom:0}.dayNum{display:flex;flex-direction:column;text-align:center}.dayNum b{font-size:17px}.dayNum span{font-size:10px;color:var(--muted);text-transform:capitalize}.time{display:grid;grid-template-columns:1fr 1fr;gap:6px}.time input{margin-top:3px;padding:7px;font-size:16px}.dayResult{text-align:right}.hours{display:block;font-weight:750;font-size:13px}.cat{display:inline-block;margin-top:3px;font-size:11px;padding:3px 6px;border-radius:999px;background:#f0f2f5;color:#59636f}.cat.ok{background:var(--okbg);color:var(--ok)}.cat.warn{background:var(--warnbg);color:var(--warn)}details{grid-column:2/-1}summary{font-size:11px;color:var(--muted);cursor:pointer}.detailGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-top:8px}.wide{grid-column:1/-1}.actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:12px}.filePick{position:relative;display:inline-flex;overflow:hidden}.filePick input{position:absolute;inset:0;width:100%;height:100%;opacity:0;margin:0;padding:0;cursor:pointer;z-index:2}.photoChooser{display:inline-flex;align-items:center;position:relative;overflow:hidden;border:1px solid var(--border);border-radius:10px;padding:10px 12px;background:#fff;color:var(--text);font-weight:750;cursor:pointer;white-space:nowrap}.photoChooser input{position:absolute;inset:0;width:100%;height:100%;opacity:0;margin:0;padding:0;cursor:pointer;z-index:2}.stickySummary{position:sticky;bottom:8px;display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:#20252c;color:#fff;border-radius:14px;padding:10px;margin-top:10px;box-shadow:0 5px 20px #0002}.stickySummary div{text-align:center;border-right:1px solid #ffffff24}.stickySummary div:last-child{border:0}.stickySummary span{display:block;font-size:10px;opacity:.7}.stickySummary strong{font-size:14px}.yearSelector{display:flex;justify-content:center;align-items:center;gap:18px;margin-top:10px}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.metric{background:#fff;border:1px solid var(--border);border-radius:14px;padding:13px}.metric span{display:block;color:var(--muted);font-size:12px}.metric strong{display:block;font-size:20px;margin-top:5px}.monthRows{display:flex;flex-direction:column}.monthRow{display:grid;grid-template-columns:1fr 90px 100px;gap:8px;padding:9px 0;border-bottom:1px solid #edf0f3;font-size:13px}.monthRow:last-child{border:0}
+@media(max-width:560px){main{padding:10px 10px 85px}.importCard{grid-template-columns:34px 1fr auto}.day{grid-template-columns:42px 1fr 78px;gap:6px}.detailGrid{grid-template-columns:1fr 1fr}.monthHead{align-items:flex-start}.childMini{width:120px}.stickySummary strong{font-size:12px}.stickySummary{padding:8px 5px}.monthRow{grid-template-columns:1fr 70px 85px}.primaryBtn,.secondaryBtn{padding:9px 10px}}
+@media(max-width:380px){.dayResult{font-size:11px}.day{grid-template-columns:38px 1fr 70px}.time{gap:4px}.stickySummary span{font-size:9px}.stickySummary strong{font-size:11px}}
+</style>
+</head>
+<body>
+<main>
+  <header class="top">
+    <div>
+      <div class="eyebrow">ASSISTANTE MATERNELLE</div>
+      <h1>Mon suivi fiscal</h1>
+      <p>Enregistrez vos feuilles RAM et laissez l'application faire les calculs. <span class="small">V6</span></p>
+    </div>
+    <button id="quickPhoto" class="iconBtn" type="button" aria-label="Ajouter une photo">＋</button>
+  </header>
+
+  <nav class="tabs" aria-label="Navigation principale">
+    <button class="tab active" data-tab="journal" type="button">Journal</button>
+    <button class="tab" data-tab="annee" type="button">Année</button>
+    <button class="tab" data-tab="reglages" type="button">Réglages</button>
+  </nav>
+
+  <section id="journal" class="view active">
+    <div class="card monthHead">
+      <div>
+        <div class="muted small">Période</div>
+        <div class="monthLine">
+          <button id="prevMonth" class="round" type="button">‹</button>
+          <strong id="monthTitle">Septembre 2025</strong>
+          <button id="nextMonth" class="round" type="button">›</button>
+        </div>
+      </div>
+      <label class="childMini">Enfant
+        <input id="child" value="Enfant 1" placeholder="Nom">
+      </label>
+    </div>
+
+    <div class="card">
+      <div class="sectionTitle">
+        <div><h2>Mes journées</h2><span id="monthHint" class="muted small"></span></div>
+        <button id="today" class="textBtn" type="button">Aujourd'hui</button>
+      </div>
+
+      <div id="days" class="dayList"></div>
+
+      <div class="actions">
+      <label class="primaryBtn filePick">📷 Prendre en photo
+        <input id="cameraPhoto" type="file" accept="image/jpeg,image/png,image/heic,image/heif" capture="environment">
+      </label>
+      <label class="photoChooser">🖼️ Choisir une photo dans Photos / Fichiers
+        <input id="libraryPhoto" type="file" accept="image/jpeg,image/png,image/heic,image/heif">
+      </label>
+      <button id="runOcr" class="secondaryBtn" type="button" disabled>Analyser</button>
+      <div id="ocrStatus" class="small muted full">Choisissez une photo ou prenez-en une.</div>
+      <div id="preview" class="preview full"></div>
+    </div>
+    </div>
+
+    <div class="stickySummary">
+      <div><span>Heures</span><strong id="totalHours">0 h 00</strong></div>
+      <div><span>≥ 8 h</span><strong id="days8">0</strong></div>
+      <div><span>&lt; 8 h</span><strong id="daysUnder8">0</strong></div>
+      <div><span>Abattement</span><strong id="deduction">0,00 €</strong></div>
+    </div>
+  </section>
+
+  <section id="annee" class="view">
+    <div class="card">
+      <div class="sectionTitle"><div><h2>Résumé annuel</h2><span class="muted small">Données enregistrées dans cette session</span></div></div>
+      <div class="yearSelector">
+        <button id="prevYear" class="round" type="button">‹</button>
+        <strong id="yearTitle">2025</strong>
+        <button id="nextYear" class="round" type="button">›</button>
+      </div>
+    </div>
+    <div class="grid2">
+      <div class="metric"><span>Revenus</span><strong id="annualIncome">0,00 €</strong></div>
+      <div class="metric"><span>Abattement</span><strong id="annualDeduction">0,00 €</strong></div>
+      <div class="metric"><span>Montant à déclarer</span><strong id="taxable">0,00 €</strong></div>
+      <div class="metric"><span>Jours ≥ 8 h</span><strong id="annualDays8">0</strong></div>
+    </div>
+    <div class="card">
+      <h2>Revenus mensuels</h2>
+      <div id="annualMonths" class="monthRows"></div>
+    </div>
+    <div class="card">
+      <h2>Indemnités et revenus</h2>
+      <p class="small muted">Le montant des revenus du mois est saisi dans le journal mensuel. Les indemnités peuvent être renseignées pour chaque journée.</p>
+    </div>
+  </section>
+
+  <section id="reglages" class="view">
+    <div class="card">
+      <h2>Paramètres fiscaux</h2>
+      <label>SMIC horaire
+        <input id="smic" type="number" min="0" step="0.01" value="11.88">
+      </label>
+      <label>Majoration
+        <select id="majoration">
+          <option value="3">Régime normal — 3 × SMIC</option>
+          <option value="4">Situation ouvrant droit à majoration — 4 × SMIC</option>
+        </select>
+      </label>
+      <p class="small muted">Les paramètres doivent être vérifiés chaque année avec les règles fiscales en vigueur.</p>
+    </div>
+    <div class="card">
+      <h2>Données</h2>
+      <div class="actions">
+        <button id="export" class="primaryBtn" type="button">Exporter CSV</button>
+        <button id="backup" class="secondaryBtn" type="button">Sauvegarder JSON</button>
+        <label class="secondaryBtn">Restaurer JSON<input id="restore" type="file" accept=".json,application/json" hidden></label>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script>
+(() => {
+  const months=["Janvier","Février","Mars","Avril","Mai","Juin","Juillet","Août","Septembre","Octobre","Novembre","Décembre"];
+  const state={year:new Date().getFullYear(),smic:11.88,child:"Enfant 1",majoration:3,month:8,months:{}};
+  const $=id=>document.getElementById(id);
+  const key=()=>`${state.child}|${state.year}|${state.month}`;
+  const emptyMonth=()=>{
+    const n=new Date(Date.UTC(state.year,state.month+1,0)).getUTCDate();
+    return {rows:Array.from({length:n},(_,i)=>({day:i+1,start:"",end:"",extra:0,entretien:0,repas:0,km:0,info:""})),income:0};
+  };
+  const getMonth=()=>state.months[key()]||(state.months[key()]=emptyMonth());
+  const mins=v=>{if(!v)return null;const p=v.split(":").map(Number);return p.length===2&&p.every(Number.isFinite)?p[0]*60+p[1]:null};
+  const hm=n=>`${Math.floor(n/60)} h ${String(n%60).padStart(2,"0")}`;
+  const euro=n=>(Number(n)||0).toLocaleString("fr-FR",{minimumFractionDigits:2,maximumFractionDigits:2})+" €";
+
+  function updateHeader(){
+    $("monthTitle").textContent=`${months[state.month]} ${state.year}`;
+    $("monthHint").textContent=`${getMonth().rows.length} jours calendaires`;
+    $("yearTitle").textContent=state.year;
+  }
+  function build(){
+    updateHeader();
+    const m=getMonth();
+    $("days").innerHTML="";
+    m.rows.forEach((r,i)=>{
+      const item=document.createElement("div");
+      item.className="day";
+      item.innerHTML=`
+        <div class="dayNum"><b>${r.day}</b><span>${new Date(Date.UTC(state.year,state.month,r.day)).toLocaleDateString("fr-FR",{weekday:"short",timeZone:"UTC"}).replace(".","")}</span></div>
+        <div class="time"><label>Arrivée<input type="time" data-f="start" value="${r.start||""}"></label><label>Départ<input type="time" data-f="end" value="${r.end||""}"></label></div>
+        <div class="dayResult"><span class="hours">—</span><span class="cat">—</span></div>
+        <details><summary>Détails</summary><div class="detailGrid">
+          <label>H. compl.<input type="number" min="0" step=".01" data-f="extra" value="${r.extra||0}"></label>
+          <label>Entretien €<input type="number" min="0" step=".01" data-f="entretien" value="${r.entretien||0}"></label>
+          <label>Repas €<input type="number" min="0" step=".01" data-f="repas" value="${r.repas||0}"></label>
+          <label>KM €<input type="number" min="0" step=".01" data-f="km" value="${r.km||0}"></label>
+          <label class="wide">Note<input type="text" data-f="info" value="${r.info||""}" placeholder="Absence, remarque…"></label>
+        </div></details>`;
+      item.querySelectorAll("[data-f]").forEach(el=>el.addEventListener("input",()=>{
+        m.rows[i][el.dataset.f]=el.value; update();
+      }));
+      $("days").appendChild(item);
+    });
+    update();
+  }
+  function update(){
+    const m=getMonth();m.income=Number(m.income)||0;
+    let total=0,d8=0,du=0,ded=0;
+    $("days").querySelectorAll(".day").forEach((el,i)=>{
+      const r=m.rows[i],a=mins(r.start),b=mins(r.end),hours=el.querySelector(".hours"),cat=el.querySelector(".cat");
+      if(a===null&&b===null){hours.textContent="";cat.textContent="";}
+      else if(a===null||b===null||b<=a){hours.textContent="À vérifier";cat.textContent="Horaires incomplets";cat.className="cat warn";}
+      else{
+        const d=b-a;total+=d;hours.textContent=hm(d);
+        if(d>=480){d8++;cat.textContent="≥ 8 h";cat.className="cat ok";}
+        else{du++;cat.textContent="< 8 h";cat.className="cat";}
+        ded+=Number(state.majoration)*Number(state.smic)*Math.min(d/60/8,1);
+      }
+    });
+    $("totalHours").textContent=hm(total);$("days8").textContent=d8;$("daysUnder8").textContent=du;$("deduction").textContent=euro(ded);
+    recalcAnnual();
+  }
+  function recalcAnnual(){
+    let income=0,ded=0,annualD8=0;
+    Object.keys(state.months).forEach(k=>{
+      const m=state.months[k];if(!m)return;income+=Number(m.income)||0;
+      m.rows.forEach(r=>{const a=mins(r.start),b=mins(r.end);if(a!==null&&b!==null&&b>a){const d=b-a;ded+=Number(state.majoration)*Number(state.smic)*Math.min(d/60/8,1);if(d>=480)annualD8++;}});
+    });
+    ded=Math.min(income,ded);
+    $("annualIncome").textContent=euro(income);$("annualDeduction").textContent=euro(ded);$("taxable").textContent=euro(Math.max(0,income-ded));$("annualDays8").textContent=annualD8;
+    $("annualMonths").innerHTML=months.map((name,i)=>{
+      const m=state.months[`${state.child}|${state.year}|${i}`],inc=m?.income||0;
+      const hrs=m?m.rows.reduce((s,r)=>{const a=mins(r.start),b=mins(r.end);return s+(a!==null&&b!==null&&b>a?b-a:0)},0):0;
+      return `<div class="monthRow"><span>${name}</span><span>${hrs?hm(hrs):"—"}</span><strong>${euro(inc)}</strong></div>`;
+    }).join("");
+  }
+  function setMonth(delta){state.month+=delta;if(state.month>11){state.month=0;state.year++}if(state.month<0){state.month=11;state.year--}build();}
+  document.querySelectorAll(".tab").forEach(b=>b.addEventListener("click",()=>{document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));document.querySelectorAll(".view").forEach(x=>x.classList.remove("active"));b.classList.add("active");$(b.dataset.tab).classList.add("active");}));
+  $("prevMonth").addEventListener("click",()=>setMonth(-1));$("nextMonth").addEventListener("click",()=>setMonth(1));
+  $("prevYear").addEventListener("click",()=>{state.year--;build()});$("nextYear").addEventListener("click",()=>{state.year++;build()});
+  $("today").addEventListener("click",()=>{const d=new Date();state.year=d.getFullYear();state.month=d.getMonth();build();});
+  $("child").addEventListener("input",()=>{state.child=$("child").value.trim()||"Enfant 1";build();});
+  $("smic").addEventListener("input",()=>{state.smic=Math.max(0,Number($("smic").value)||0);update();});
+  $("majoration").addEventListener("change",()=>{state.majoration=Number($("majoration").value);update();});
+  let selectedPhoto=null;
+  function selectPhoto(file,input){
+    if(!file)return;
+    selectedPhoto=file;
+    if(input) input.value="";
+    const u=URL.createObjectURL(file);
+    $("preview").innerHTML="";
+    const img=document.createElement("img");
+    img.src=u; img.alt="Feuille RAM importée";
+    img.onload=()=>URL.revokeObjectURL(u);
+    $("preview").appendChild(img);
+    const name=document.createElement("div");
+    name.className="small muted"; name.style.marginTop="6px"; name.textContent=file.name || "Photo sélectionnée";
+    $("preview").appendChild(name);
+    $("runOcr").disabled=false;
+    $("ocrStatus").textContent="Photo sélectionnée. Appuyez sur « Analyser ».";
+  }
+  $("cameraPhoto").addEventListener("change",e=>selectPhoto(e.target.files?.[0],e.target));
+  $("libraryPhoto").addEventListener("change",e=>selectPhoto(e.target.files?.[0],e.target));
+  $("quickPhoto").addEventListener("click",()=>$("cameraPhoto").click());
+  $("runOcr").addEventListener("click",async()=>{
+    if(!selectedPhoto)return;$("runOcr").disabled=true;$("ocrStatus").textContent="Lecture de la feuille…";
+    try{
+      const mod=await import("https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/+esm"),T=mod.default||mod;
+      const res=await T.recognize(selectedPhoto,"fra",{logger:m=>{if(m?.progress!=null)$("ocrStatus").textContent=`Lecture… ${Math.round(m.progress*100)} %`;}});
+      const data=res?.data||{},words=(data.words||[]).filter(w=>w.text&&Number.isFinite(w.confidence));
+      const m=getMonth();let n=0,review=0;
+      // Analyse par position: les mots sont regroupés par ligne selon leur coordonnée Y.
+      // Cela évite de mélanger les horaires de deux lignes voisines de la feuille RAM.
+      const rows=[];
+      words.forEach(w=>{const cy=(w.bbox?.y0+w.bbox?.y1)/2||0;let row=rows.find(r=>Math.abs(r.cy-cy)<Math.max(12,(w.bbox?.y1-w.bbox?.y0)*0.65));if(!row){row={cy,words:[]};rows.push(row);}row.words.push(w);});
+      rows.forEach(row=>{
+        row.words.sort((a,b)=>(a.bbox?.x0||0)-(b.bbox?.x0||0));
+        const line=row.words.map(w=>w.text).join(" ");
+        const dayMatch=line.match(/(?:^|\s)(3[01]|[12]\d|[1-9])(?:\s|$)/);
+        if(!dayMatch)return;
+        const day=Number(dayMatch[1]);if(day<1||day>31)return;
+        const times=[];
+        row.words.forEach(w=>{const t=w.text.replace(/[Oo]/g,"0").replace(/[Il]/g,"1").replace(/[hH]/g,":").replace(/\./g,":");const m1=t.match(/(?:^|\D)([01]?\d|2[0-3])[: ]([0-5]\d)(?:$|\D)/);if(m1)times.push(`${String(m1[1]).padStart(2,"0")}:${m1[2]}`);});
+        if(times.length<2){const all=[...line.replace(/[Oo]/g,"0").matchAll(/\b([01]?\d|2[0-3])[:.h ]([0-5]\d)\b/g)];all.forEach(x=>times.push(`${String(x[1]).padStart(2,"0")}:${x[2]}`));}
+        const r=m.rows.find(x=>x.day===day);
+        if(r&&times.length>=2){r.start=times[0];r.end=times[1];n++;if(times.length>2)review++;}
+      });
+      build();$("ocrStatus").textContent=n?`${n} journée(s) préremplie(s). Vérifiez avant validation.`:"Aucune journée reconnue. Essayez une photo plus nette.";
+    }catch(e){$("ocrStatus").textContent="OCR indisponible. Vous pouvez saisir les horaires manuellement.";}
+    finally{$("runOcr").disabled=false;}
+  });
+  $("export").addEventListener("click",()=>{
+    const lines=["Année;Enfant;Mois;Jour;Arrivée;Départ;Heures;Catégorie;H complémentaires;Entretien;Repas;KM;Note"];
+    Object.entries(state.months).forEach(([k,m])=>m.rows.forEach(r=>{const a=mins(r.start),b=mins(r.end),d=a!==null&&b!==null&&b>a?b-a:null;lines.push([state.year,state.child,months[Number(k.split("|")[2])],r.day,r.start,r.end,d==null?"":(d/60).toFixed(2).replace(".",","),d==null?"":(d>=480?"≥ 8 h":"< 8 h"),r.extra,r.entretien,r.repas,r.km,r.info].map(v=>`"${String(v??"").replaceAll('"','""')}"`).join(";"))}));
+    const a=document.createElement("a"),b=new Blob(["\ufeff"+lines.join("\n")],{type:"text/csv;charset=utf-8"});a.href=URL.createObjectURL(b);a.download=`suivi-assmat-${state.year}.csv`;a.click();URL.revokeObjectURL(a.href);
+  });
+  $("backup").addEventListener("click",()=>{const a=document.createElement("a"),b=new Blob([JSON.stringify(state,null,2)],{type:"application/json"});a.href=URL.createObjectURL(b);a.download=`sauvegarde-assmat-${state.year}.json`;a.click();URL.revokeObjectURL(a.href);});
+  $("restore").addEventListener("change",e=>{const f=e.target.files?.[0];if(!f)return;const rd=new FileReader();rd.onload=()=>{try{Object.assign(state,JSON.parse(rd.result));$("child").value=state.child;$("smic").value=state.smic;$("majoration").value=state.majoration;build();}catch{alert("Fichier JSON invalide.")}};rd.readAsText(f);});
+  build();
+})();
+</script>
+</body>
+</html>
