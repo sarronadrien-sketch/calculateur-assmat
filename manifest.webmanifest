@@ -1,8 +1,0 @@
-{
-  "name":"Mon suivi fiscal - Assistante maternelle",
-  "short_name":"Suivi Assmat",
-  "start_url":"./index.html?v=5",
-  "display":"standalone",
-  "background_color":"#f5f6f8",
-  "theme_color":"#315efb"
-}
