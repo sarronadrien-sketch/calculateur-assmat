@@ -1,8 +1,8 @@
-<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#2563eb"><title>Mon suivi fiscal — Assistante maternelle V13</title><style>
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#2563eb"><title>Mon suivi fiscal — Assistante maternelle V15</title><style>
 :root{--bg:#f4f7fb;--card:#fff;--text:#17202a;--muted:#667085;--blue:#2563eb;--line:#dbe2ea;--ok:#15803d;--warn:#b45309}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}main{max-width:900px;margin:auto;padding:16px 10px 70px}.top h1{font-size:31px;margin:4px 0}.top p{color:var(--muted);font-size:16px}.eyebrow{font-weight:800;color:#667085;letter-spacing:.08em}.card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:15px;margin:12px 0;box-shadow:0 4px 18px #00000008}.hero{border:2px solid var(--blue)}h2{margin:0 0 8px;font-size:20px}.actions{display:grid;grid-template-columns:1fr 1fr;gap:9px}.btn,label.btn{display:flex;justify-content:center;align-items:center;min-height:50px;border:0;border-radius:12px;padding:11px;font-weight:800;font-size:16px;cursor:pointer;text-align:center;position:relative}.primary{background:var(--blue);color:#fff}.secondary{background:#e9efff;color:#1746a2}.btn input{position:absolute;inset:0;opacity:0;width:100%;height:100%}.analyze{width:100%;margin-top:9px;background:#111827;color:#fff}.analyze:disabled{opacity:.4}.small{font-size:13px;color:var(--muted);line-height:1.4}.preview img{width:100%;max-height:420px;object-fit:contain;border-radius:12px;margin-top:9px}.status{padding:10px;border-radius:10px;background:#f1f5f9;color:#475569;margin-top:9px}.status.ok{background:#ecfdf3;color:var(--ok)}.status.warn{background:#fff7ed;color:var(--warn)}.tabs{display:grid;grid-template-columns:1fr 1fr 1fr;background:#e8edf4;border-radius:14px;padding:4px;margin:12px 0}.tab{border:0;background:none;padding:12px;font-weight:800;color:#667085;border-radius:11px}.tab.active{background:#fff;color:#17202a}.period{display:grid;grid-template-columns:48px 1fr 48px;gap:10px;align-items:center}.period button{border:1px solid var(--line);background:#fff;border-radius:12px;width:48px;height:48px;font-size:25px;color:var(--blue)}input,select,textarea{font:inherit;border:1px solid var(--line);border-radius:10px;padding:9px;background:#fff;width:100%}.gridwrap{overflow:auto}.days{display:grid;grid-template-columns:34px repeat(13,minmax(70px,1fr));min-width:1050px;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden}.days>div{background:#fff;padding:4px 3px;font-size:11px;text-align:center;min-height:31px}.days .head{font-weight:800;background:#eef2f7}.days input{border:0;padding:6px 2px;text-align:center;font-size:11px;border-radius:4px}.summary{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:#20252d;color:#fff;border-radius:15px;overflow:hidden;margin-top:12px}.summary>div{padding:10px 5px;text-align:center}.summary b{display:block;font-size:18px;margin-top:3px}.resultrow{display:grid;grid-template-columns:42px 1fr 1fr 1fr 1fr;gap:6px;align-items:center;border-bottom:1px solid var(--line);padding:7px 0}.resultrow:last-child{border:0}.hidden{display:none}.flag{font-size:12px;color:var(--warn)}.hint{background:#f8fafc;border:1px dashed #cbd5e1;padding:10px;border-radius:10px;margin-top:10px}.detected{font-weight:800}.calc{font-size:11px;color:#667085}
 @media(max-width:600px){.actions{grid-template-columns:1fr}.summary{grid-template-columns:repeat(2,1fr)}main{padding:12px 8px 50px}.resultrow{grid-template-columns:32px 1fr 1fr 1fr 1fr;font-size:12px}}
 </style></head><body><main>
-<header class="top"><div class="eyebrow">ASSISTANTE MATERNELLE</div><h1>Mon suivi fiscal</h1><p>Lecture de la feuille RAM photographiée — V13.</p></header>
+<header class="top"><div class="eyebrow">ASSISTANTE MATERNELLE</div><h1>Mon suivi fiscal</h1><p>Lecture de la feuille RAM photographiée — V15.</p></header>
 <section class="card hero"><h2>Importer la feuille RAM</h2><p class="small">Le lecteur repère d'abord la zone des 31 jours, puis analyse séparément <b>arrivée</b>, <b>départ</b> et <b>heures travaillées</b>. Les marques de la colonne <b>ind entretien</b> sont détectées séparément. Les cellules vides restent vides.</p><div class="actions"><label class="btn primary">📷 Prendre en photo<input id="photoCamera" type="file" accept="image/*" capture="environment"></label><label class="btn secondary">🖼️ Choisir dans Photos<input id="photoLibrary" type="file" accept="image/*"></label></div><button id="analyze" class="btn analyze" disabled>Analyser la feuille RAM</button><div id="status" class="status">Aucune photo sélectionnée.</div><div id="preview" class="preview"></div></section>
 <div class="tabs"><button class="tab active" data-tab="journal">Journal</button><button class="tab" data-tab="annual">Année</button><button class="tab" data-tab="settings">Réglages</button></div>
 <section id="journal"><div class="card"><div class="period"><button id="prev">‹</button><div><label class="small">Période</label><h2 id="periodTitle">—</h2></div><button id="next">›</button></div><input id="child" value="Enfant 1" placeholder="Enfant" style="margin-top:10px"></div>
@@ -20,8 +20,31 @@ const cols={day:[.054,.081],arrive:[.081,.147],depart:[.147,.209],worked:[.209,.
 const hourFields=new Set(['arrive','depart','worked']);
 const crossFields=new Set(['entretien']);
 function monthName(){return new Intl.DateTimeFormat('fr-FR',{month:'long',year:'numeric'}).format(new Date(state.year,state.month,1))}
-function clean(s){return String(s||'').toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[OoQq]/g,'0').replace(/[Il|]/g,'1').replace(/[Ss]/g,'5').replace(/[Zz]/g,'2').replace(/[Bb]/g,'8').replace(/[Gg]/g,'6').replace(/[.,]/g,':').replace(/[^0-9H:]/g,'').replace(/H+/g,'H').trim()}
-function hourMatch(s){let x=clean(s); if(!x)return null; let m=x.match(/(?:^|[^0-9])(\d{1,2})H(?:([0-5]\d))?(?:$|[^0-9])/)||x.match(/(?:^|[^0-9])(\d{1,2}):([0-5]\d)(?:$|[^0-9])/); if(!m)return null; let h=+m[1],mm=m[2]===undefined?0:+m[2]; if(h>23||mm>59)return null; return {h,mm,text:String(h).padStart(2,'0')+':'+String(mm).padStart(2,'0')};}
+function clean(s){
+  return String(s||'').toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+    .replace(/[OoQq]/g,'0').replace(/[Il|]/g,'1').replace(/[Ss]/g,'5')
+    .replace(/[Zz]/g,'2').replace(/[Bb]/g,'8').replace(/[Gg]/g,'6')
+    .replace(/[Dd]/g,'0').replace(/[Tt]/g,'7').replace(/[Ee]/g,'8')
+    .replace(/[;,]/g,':').replace(/[−–—_]/g,'-')
+    .replace(/[^0-9Hh:.'\\s]/g,'').trim();
+}
+function hourMatch(s){
+  let x=clean(s).replace(/\s+/g,'');
+  if(!x)return null;
+  // Accept a broad range of handwritten/OCR representations:
+  // 8H, 8H30, 08H30, 8:30, 8.30, 8h 3, 830, 0830.
+  let m=x.match(/^(\d{1,2})H(?:(\d{1,2}))?$/i)
+       ||x.match(/^(\d{1,2}):(\d{1,2})$/)
+       ||x.match(/^(\d{1,2})\.(\d{1,2})$/);
+  let h=null,mm=0;
+  if(m){h=+m[1];mm=m[2]===undefined?0:+m[2];}
+  else if(/^\d{3,4}$/.test(x)){
+    if(x.length===3){h=+x.slice(0,1);mm=+x.slice(1);}
+    else {h=+x.slice(0,2);mm=+x.slice(2);}
+  } else return null;
+  if(h>23||mm>59)return null;
+  return {h,mm,text:String(h).padStart(2,'0')+':'+String(mm).padStart(2,'0')};
+}
 function normTime(s){let m=hourMatch(s);return m?m.text:''}
 function duration(a,b){let x=hourMatch(a),y=hourMatch(b);if(!x||!y)return '';let d=(y.h*60+y.mm)-(x.h*60+x.mm);if(d<0)d+=1440;return d}
 function fmtMin(n){return Math.floor(n/60)+' h '+String(n%60).padStart(2,'0')}
@@ -34,8 +57,46 @@ function cellBox(canvas,field,row){let W=canvas.width,H=canvas.height;
   let [a,b]=cols[field]; return {x1:W*a,x2:W*b,y1,y2};
 }
 function sampleInk(canvas,box){let {x1,x2,y1,y2}=box,W=canvas.width,H=canvas.height;let ix=Math.max(3,(x2-x1)*.10),iy=Math.max(2,(y2-y1)*.16);x1=Math.round(x1+ix);x2=Math.round(x2-ix);y1=Math.round(y1+iy);y2=Math.round(y2-iy);if(x2<=x1||y2<=y1)return 0;let d=canvas.getContext('2d').getImageData(x1,y1,x2-x1,y2-y1).data,n=0,dark=0;for(let i=0;i<d.length;i+=4){let lum=.299*d[i]+.587*d[i+1]+.114*d[i+2];n++;if(lum<145)dark++;}return dark/Math.max(1,n)}
-function preprocess(canvas,box,variant){let {x1,x2,y1,y2}=box,W=x2-x1,H=y2-y1;let px=Math.max(2,Math.round(W*.035)),py=Math.max(1,Math.round(H*.06));x1=Math.round(x1+px);x2=Math.round(x2-px);y1=Math.round(y1+py);y2=Math.round(y2-py);let w=Math.max(18,x2-x1),h=Math.max(14,y2-y1),s=6,c=document.createElement('canvas');c.width=w*s;c.height=h*s;let g=c.getContext('2d');g.imageSmoothingEnabled=true;g.drawImage(canvas,x1,y1,w,h,0,0,c.width,c.height);let d=g.getImageData(0,0,c.width,c.height),p=d.data;let threshold=variant===0?175:variant===1?205:variant===2?145:230;for(let i=0;i<p.length;i+=4){let lum=.299*p[i]+.587*p[i+1]+.114*p[i+2];let v=lum<threshold?0:255;p[i]=p[i+1]=p[i+2]=v;p[i+3]=255}g.putImageData(d,0,0);return c}
-async function ocrHourCell(worker,canvas,box){let best=null;for(let v=0;v<4;v++){let c=preprocess(canvas,box,v);for(let psm of ['10','7','8']){await worker.setParameters({tessedit_pageseg_mode:psm,tessedit_char_whitelist:'0123456789Hh:OolI'});let rr=await worker.recognize(c);let raw=(rr.data?.text||'').replace(/\n/g,' ').trim();let m=hourMatch(raw);if(m){let conf=Number(rr.data?.confidence||0);let score=conf+(psm==='10'?3:0);if(!best||score>best.conf)best={text:m.text,conf:score}}}} return best?best.text:'';}
+function preprocess(canvas,box,variant){
+  let {x1,x2,y1,y2}=box,W=x2-x1,H=y2-y1;
+  // Keep the handwriting, discard most of the printed cell borders.
+  let px=Math.max(3,W*.07),py=Math.max(2,H*.10);
+  x1=Math.round(x1+px);x2=Math.round(x2-px);y1=Math.round(y1+py);y2=Math.round(y2-py);
+  let w=Math.max(20,x2-x1),h=Math.max(16,y2-y1),s=7,c=document.createElement('canvas');
+  c.width=Math.round(w*s);c.height=Math.round(h*s);
+  let g=c.getContext('2d');g.imageSmoothingEnabled=true;g.drawImage(canvas,x1,y1,w,h,0,0,c.width,c.height);
+  let d=g.getImageData(0,0,c.width,c.height),p=d.data;
+  let threshold=[150,175,195,215,235][variant]||175;
+  for(let i=0;i<p.length;i+=4){
+    let lum=.299*p[i]+.587*p[i+1]+.114*p[i+2];
+    // Slight contrast boost; retain faint pencil/pen strokes at higher variants.
+    let v=lum<threshold?0:255;p[i]=p[i+1]=p[i+2]=v;p[i+3]=255;
+  }
+  g.putImageData(d,0,0);
+  return c;
+}
+async function ocrHourCell(worker,canvas,box){
+  let best=null;
+  for(let v=0;v<5;v++){
+    let c=preprocess(canvas,box,v);
+    for(let psm of ['10','7','8','13']){
+      await worker.setParameters({
+        tessedit_pageseg_mode:psm,
+        tessedit_char_whitelist:'0123456789Hh:.'
+      });
+      let rr=await worker.recognize(c);
+      let raw=(rr.data?.text||'').replace(/[\r\n]/g,' ').trim();
+      let m=hourMatch(raw);
+      if(m){
+        let conf=Number(rr.data?.confidence||0);
+        // Prefer confident OCR, but do not hard-code any particular hour value.
+        let score=conf+(psm==='10'?2:0)+(v===1?1:0);
+        if(!best||score>best.conf)best={text:m.text,conf:score};
+      }
+    }
+  }
+  return best?best.text:'';
+}
 function crossScore(canvas,box){let {x1,x2,y1,y2}=box,W=x2-x1,H=y2-y1;let px=W*.10,py=H*.10;x1+=px;x2-=px;y1+=py;y2-=py;let w=Math.round(x2-x1),h=Math.round(y2-y1);if(w<12||h<10)return 0;let c=document.createElement('canvas');c.width=w*5;c.height=h*5;let g=c.getContext('2d');g.imageSmoothingEnabled=true;g.drawImage(canvas,x1,y1,w,h,0,0,c.width,c.height);let d=g.getImageData(0,0,c.width,c.height).data,W2=c.width,H2=c.height,ink=new Uint8Array(W2*H2),n=0;for(let y=0;y<H2;y++)for(let x=0;x<W2;x++){let i=(y*W2+x)*4,lum=.299*d[i]+.587*d[i+1]+.114*d[i+2];if(lum<150){ink[y*W2+x]=1;n++}}if(n<10)return 0;let cx=(W2-1)/2,cy=(H2-1)/2;let diagBand=Math.max(3,Math.min(W2,H2)*.09), centerBandX=W2*.30,centerBandY=H2*.34;let d1=0,d2=0,center=0,total=n;for(let y=0;y<H2;y++)for(let x=0;x<W2;x++)if(ink[y*W2+x]){let nx=(x-cx)/W2,ny=(y-cy)/H2;let a=Math.abs(ny-nx),b=Math.abs(ny+nx);if(a<diagBand/Math.min(W2,H2))d1++;if(b<diagBand/Math.min(W2,H2))d2++;if(Math.abs(x-cx)<centerBandX&&Math.abs(y-cy)<centerBandY)center++}let diag=Math.min(d1,d2)/Math.max(1,total);let density=Math.min(1,total/(W2*H2*.12));let centerRatio=center/Math.max(1,total);return Math.min(1,diag*1.9+centerRatio*.15+density*.05)}
 async function analyze(){if(!state.photo)return;$('analyze').disabled=true;$('status').className='status';$('status').textContent='Préparation de la photo…';try{let canvas=await imageToCanvas(state.photo);$('preview').innerHTML='<img alt="Aperçu" src="'+canvas.toDataURL('image/jpeg',.88)+'">';const T=await import('https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/+esm');$('status').textContent='Chargement du moteur de reconnaissance…';const worker=await T.createWorker('eng',1,{logger:m=>{if(m.status){let p=m.progress?Math.round(m.progress*100)+' %':'';$('status').textContent=m.status+(p?' '+p:'')}}});let recognized=0,crossFound=0,calculated=0;
   // Réinitialise seulement les champs issus de la photo.
